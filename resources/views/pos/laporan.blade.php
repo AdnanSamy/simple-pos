@@ -9,45 +9,24 @@
     @endif
 
     <!-- Products List -->
-    <h3>Available Products</h3>
-    <div class="row">
-        @foreach($products as $product)
-            <div class="col-md-3">
-                <div class="card">
-                    {{-- <img src="https://via.placeholder.com/150" class="card-img-top" alt="{{ $product->name }}"> --}}
-                    <h5 class="card-title m-2">{{ $product->name }}</h5>
-                    <div class="card-body">
-                        <p class="card-text">Price: Rp.{{ number_format($product->price, 2) }}</p>
-                        <button class="btn btn-primary add-to-cart" data-id="{{ $product->id }}" data-name="{{ $product->name }}" data-price="{{ $product->price }}">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
-
-    <!-- Cart Section -->
-    <h3>Cart</h3>
-    <form action="{{ route('pos.store') }}" method="POST" id="transaction-form">
-        @csrf
-        <table class="table table-bordered">
-            <thead>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>Total Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="cart-items">
+            @foreach ($sale as $item)
                 <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Action</th>
+                    <td>{{ $item->created_at }}</td>
+                    <td>{{ $item->total_amount }}</td>
+                    <td><a href="{{ url('/pos/laporan/' . $item->id) }}" class="btn btn-primary">Detail</a></td>
                 </tr>
-            </thead>
-            <tbody id="cart-items">
-                <!-- Cart items will be appended here -->
-            </tbody>
-        </table>
-        <div class="text-end">
-            <strong>Total: Rp.<span id="total-price">0.00</span></strong>
-        </div>
-        <button type="submit" class="btn btn-success mt-3" id="submit-btn" disabled>Complete Transaction</button>
-    </form>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 
 @push('scripts')
@@ -150,8 +129,8 @@
             },
             body: JSON.stringify({
                 cart: cartData,
-                total_amount: cart.reduce((acc, obj) => acc + (obj.price*obj.quantity), 0)
             })
+            total_amount: cart.reduce((acc, obj) => acc + (obj.price*obj.quantity), 0)
         })
         .then(response => response.json())
         .then(data => {

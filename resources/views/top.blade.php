@@ -53,9 +53,15 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/products" class="nav-link">
+                <a href="/pos" class="nav-link">
                   <i class="nav-icon bi bi-palette"></i>
                   <p>Transaksi</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/pos/laporan" class="nav-link">
+                  <i class="nav-icon bi bi-palette"></i>
+                  <p>Laporan Transaksi</p>
                 </a>
               </li>
             </ul>

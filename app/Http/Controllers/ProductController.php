@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -81,5 +82,15 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+    }
+
+    public function mutasi($id){
+        $data = DB::table('stock_mutation')
+            ->join('product', 'product.id', '=', 'stock_mutation.product_id')
+            ->select('product.name', 'stock_mutation.*')
+            ->where('product_id', '=', $id)
+            ->get();
+
+        return view('products.mutasi', compact('data'));
     }
 }

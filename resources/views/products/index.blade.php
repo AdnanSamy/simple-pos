@@ -28,7 +28,8 @@
                             @method('DELETE')
                             <button  class="btn btn-danger" type="submit">Delete</button>
                         </form>
-                    </td>
+                        <a class="btn btn-primary" href="{{ url('/products/mutasi/' . $product->id) }}">Mutasi</a>
+                </td>
                 </tr>
             @endforeach
         </tbody>
